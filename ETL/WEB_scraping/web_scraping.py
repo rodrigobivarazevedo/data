@@ -9,6 +9,10 @@ import html5lib
 import requests
 import pandas as pd
 
+from bs4 import BeautifulSoup
+import requests
+import pandas as pd
+
 # URL of the webpage
 url = "https://web.archive.org/web/20200318083015/https://en.wikipedia.org/wiki/List_of_largest_banks"
 
@@ -22,22 +26,14 @@ if response.status_code == 200:
 else:
     print("Failed to retrieve webpage content.")
 
-
-# Parse the HTML content using BeautifulSoup
-soup = BeautifulSoup(html_data, "html.parser")
+# Parse the HTML content using BeautifulSoup and html5lib
+soup = BeautifulSoup(html_data, "html5lib")
 
 # Find the <h2> element with the id "By_market_capitalization"
 headline_element = soup.find("span", class_="mw-headline", id="By_market_capitalization")
 
 # Find the table element that follows the headline
 table = headline_element.find_next("table")
-
-
-#for span in soup.find_all("span"):
-    #if "By market capitalization" in span.get_text():
-      #  table = span.find_next("table")
-        #break
-
 
 if table:
     data = pd.DataFrame(columns=["Name", "Market Cap (US$ Billion)"])
@@ -49,13 +45,13 @@ if table:
             bank_name = columns[1].get_text(strip=True)
             market_cap = columns[2].get_text(strip=True)
             new_row = {"Name": bank_name, "Market Cap (US$ Billion)": market_cap}
-            dataframe = pd.concat([data, pd.DataFrame([new_row])], ignore_index=True)
+            data = pd.concat([data, pd.DataFrame([new_row])], ignore_index=True)
         
     # Display the first five rows using head
     print(data.head())
 
+    # Save DataFrame to JSON
+    data.to_json("bank_market_cap.json", orient="records", indent=4)
+
 else:
     print("Failed to find the 'By market capitalization' table.")
-
-
-data.to_json("bank_market_cap.json", orient="records", indent=4)
