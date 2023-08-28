@@ -12,6 +12,5 @@
 2023-Aug-22-21:19:56,Extract phase Ended
 2023-Aug-22-21:19:56,Transform phase Started
 2023-Aug-22-21:19:56,Transform phase Ended
-2023-Aug-22-21:19:56,Load phase Started
 2023-Aug-22-21:19:56,Load phase Ended
 2023-Aug-22-21:19:56,ETL Job Ended
