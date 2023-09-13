@@ -58,3 +58,7 @@ load = BashOperator(
 
 # task pipeline
 extract >> transform >> load
+
+# Submitting a DAG is as simple as copying the DAG python file into dags folder in the AIRFLOW_HOME directory.
+
+# ->  cp my_first_dag.py $AIRFLOW_HOME/dags
